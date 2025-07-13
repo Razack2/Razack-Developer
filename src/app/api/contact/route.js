@@ -1,24 +1,22 @@
 export const dynamic = "force-dynamic"; 
 import { NextResponse } from 'next/server';
 import pool from '@/app/lib/db';
+import validator from 'validator';
 
-function isValidEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
 export async function POST(req) {
   try {
     const formData = await req.formData();
-    const name = formData.get('name')?.toString();
-    const email = formData.get('email')?.toString();
-    const subject = formData.get('subject')?.toString();
-    const message = formData.get('message')?.toString();
+    const name = formData.get('name')?.toString().trim();
+    const email = formData.get('email')?.toString().trim();
+    const subject = formData.get('subject')?.toString().trim();
+    const message = formData.get('message')?.toString().trim();
+
 
     if (!name || !email || !subject || !message) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
 
-    if (!isValidEmail(email)) {
+    if (!validator.isEmail(email)) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 

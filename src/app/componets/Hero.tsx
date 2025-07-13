@@ -32,7 +32,7 @@ const Hero = () => {
                         Check out my{" "}
                         <Link href="/#projects" className="text-blue-500 hover:underline">
                             projects
-                        </Link>
+                        </Link>{" "}
                         for more insights into my work.
                     </p>
                 </div>

@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 
 
 
@@ -11,6 +11,13 @@ const Contact = () => {
 
  const router = useRouter();
  const [loading, setLoading] = useState(false);
+  
+      useEffect(() => {
+      if (statusType === 'success') {
+      router.push('/page');
+      }
+      }, [statusType,router]);
+
 
  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();

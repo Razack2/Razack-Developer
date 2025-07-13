@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/backend/contact/route.ts", "src/backend/contact/Contact.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/backend/contact/route.ts", "src/backend/contact/Contact.ts", "src/app/api/contact/route.js", "src/app/lib/db.js"],
   "exclude": ["node_modules"]
 }

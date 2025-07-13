@@ -1,6 +1,10 @@
 "use server";
+<<<<<<< HEAD
 import { NextResponse } from 'next/server';
 
+=======
+import { NextResponse } from 'next/server'; 
+>>>>>>> 1fc8a25094dadb74763bde99532b9de9920666ba
 import pool from '../../lib/db';
 
 type ContactMessage = {

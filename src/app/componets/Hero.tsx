@@ -33,10 +33,6 @@ const Hero = () => {
                         <Link href="/#projects" className="text-blue-500 hover:underline">
                             projects
                         </Link>{" "}
-                        and{" "}
-                        <Link href="/blog" className="text-blue-500 hover:underline">
-                            blog
-                        </Link>{" "}
                         for more insights into my work.
                     </p>
                 </div>

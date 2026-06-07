@@ -38,7 +38,7 @@ const TopNavbar = () => {
               Certificates
             </Link>
 
-            <Link href="#contact" className="hover:text-blue-700 transition">
+            <Link href="/contact" className="hover:text-blue-700 transition">
               Contact
             </Link>
           </div>

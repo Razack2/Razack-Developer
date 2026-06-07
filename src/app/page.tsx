@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient";
 import TopNavbar from "./componets/layouts/TopNavbar";
 import Footer from "./componets/layouts/Footer";
+import ProtectedRoute from "@/app/componets/protectedRoute";
 
 export default function HomePage() {
   const [education, setEducation] = useState<any[]>([]);
@@ -33,6 +34,7 @@ export default function HomePage() {
 
   return (
   <>
+  <ProtectedRoute>
     <TopNavbar />
 
     <main className="bg-slate-50 min-h-screen">
@@ -246,6 +248,7 @@ export default function HomePage() {
     </main>
 
     <Footer />
+    </ProtectedRoute>
   </>
 );
 }

@@ -17,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "resend": "^6.12.4",
     "supabase": "^2.105.0",
     "validator": "^13.15.15"
   },

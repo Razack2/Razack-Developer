@@ -104,7 +104,7 @@ export default function HomePage() {
       <section>
         {certificates.map((cert) => (
           <div key={cert.id}>
-            <img
+            <Image
               src={cert.image_url || ""}
               alt={cert.title || "certificate"}
               onClick={() => setSelectedImage(cert.image_url || "")}

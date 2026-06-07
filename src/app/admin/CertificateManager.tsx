@@ -34,7 +34,7 @@ export default function CertificatesSection() {
       loading={certificates.loading}
       onInsert={certificates.insert}
       onUpdate={certificates.update}
-      onDelete={certificates.remove}
+      onDelete={(id: string) => certificates.remove(id, undefined)}
       getId={(i: Certificate) => String(i.id)}
       mapToForm={(i: Certificate) => i}
       fields={[

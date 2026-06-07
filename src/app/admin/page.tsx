@@ -1,66 +1,82 @@
 "use client";
 
-import { useState } from "react";
+import TopNavbar from "../componets/layouts/TopNavbar";
+import Footer from "../componets/layouts/Footer";
+import CertificatesManager from "./CertificateManager"
+import CrudManager from "./CrudManager";
+import { useCrud } from "./useCrude";
 
 export default function AdminPage() {
-  const [title, setTitle] = useState("Software Engineer");
-  const [description, setDescription] = useState(
-    "I am a full-stack software engineer with a passion for building scalable and efficient web applications."
-  );
-
-  const handleSave = async () => {
-    console.log({
-      title,
-      description,
-    });
-
-    alert("Save functionality coming next");
-  };
+  const education = useCrud<any>("education", "start_date");
+  const skills = useCrud<any>("skills");
+  const projects = useCrud<any>("projects", "created_at");
+  const certificates = useCrud<any>("certificates");
 
   return (
-    <main className="max-w-4xl mx-auto p-6 mt-10">
-      <h1 className="text-3xl font-bold mb-8">
-        Portfolio Admin
-      </h1>
+    <>
+      <TopNavbar />
 
-      <div className="border rounded-lg p-6 space-y-4">
-        <h2 className="text-xl font-semibold">
-          Hero Section
-        </h2>
+      <main className="bg-slate-50 min-h-screen">
+        <div className="max-w-6xl mx-auto px-6 py-10 space-y-10">
 
-        <div>
-          <label className="block mb-2">
-            Title
-          </label>
+          <h1 className="text-4xl font-bold">
+            Portfolio Admin Dashboard
+          </h1>
 
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border rounded p-3"
+          <CrudManager
+            title="Education"
+            data={education.items}
+            loading={education.loading}
+            onInsert={education.insert}
+            onUpdate={education.update}
+            onDelete={education.remove}
+            getId={(i) => i.id}
+            mapToForm={(i) => i}
+            fields={[
+              { name: "institution", label: "Institution" },
+              { name: "qualification", label: "Qualification" },
+              { name: "start_date", label: "Start Date", type: "date" },
+              { name: "end_date", label: "End Date", type: "date" },
+              { name: "description", label: "Description", type: "textarea" },
+            ]}
           />
-        </div>
 
-        <div>
-          <label className="block mb-2">
-            Description
-          </label>
-
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={5}
-            className="w-full border rounded p-3"
+          <CrudManager
+            title="Skills"
+            data={skills.items}
+            loading={skills.loading}
+            onInsert={skills.insert}
+            onUpdate={skills.update}
+            onDelete={skills.remove}
+            getId={(i) => i.id}
+            mapToForm={(i) => i}
+            fields={[
+              { name: "name", label: "Skill" },
+              { name: "level", label: "Level" },
+            ]}
           />
-        </div>
 
-        <button
-          onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
-      </div>
-    </main>
+          <CrudManager
+            title="Projects"
+            data={projects.items}
+            loading={projects.loading}
+            onInsert={projects.insert}
+            onUpdate={projects.update}
+            onDelete={projects.remove}
+            getId={(i) => i.id}
+            mapToForm={(i) => i}
+            fields={[
+              { name: "title", label: "Title" },
+              { name: "description", label: "Description", type: "textarea" },
+              { name: "link", label: "Link" },
+            ]}
+          />
+
+          <CertificatesManager />
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 }

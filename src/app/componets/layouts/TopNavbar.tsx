@@ -1,55 +1,93 @@
 'use client';
+
 import React, { useState } from "react";
 import Link from "next/link";
 import MediaLinks from "../MediaLinks";
 import { Menu, X } from "lucide-react";
 
 const TopNavbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+  return (
+    <header className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    return (
-        <header className="bg-white shadow-md">
-            <div className="container mx-auto px-6 py-3 flex justify-between items-center">
-                {/* Branding */}
-                <h1 className="text-2xl mx-6 font-bold text-blue-800">
-                    Razack <span className="text-black">Developer</span>
-                </h1>
+        {/* Logo */}
+        <Link href="/" className="text-2xl font-bold">
+          <span className="text-blue-700">Razack</span>{" "}
+          <span className="text-gray-900">Developer</span>
+        </Link>
 
-                {/* Desktop Navigation */}
-                <nav className="hidden md:flex px-10 space-x-6 text-lg font-medium text-gray-600  items-center">
-                    <Link href="#about" className="hover:text-blue-800 transition">About</Link>
-                     <Link href="#education" className="hover:text-blue-800 transition">Education</Link>
-                    <Link href="#skills" className="hover:text-blue-800 transition">Skills</Link>
-                    <Link href="#projects" className="hover:text-blue-800 transition">Projects</Link>
-                    <Link href="#contact" className="hover:text-blue-800 transition">Contact</Link>
-                    <MediaLinks />
-                </nav>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
 
-                {/* Mobile Menu Toggle */}
-                <button onClick={toggleMenu} className="md:hidden text-gray-700 focus:outline-none">
-                    {isOpen ? <X size={28} /> : <Menu size={28} />}
-                </button>
+          <div className="flex items-center gap-6 text-gray-700 font-medium">
+            <Link href="/" className="hover:text-blue-700 transition">
+              Home
+            </Link>
+
+            <Link href="#education" className="hover:text-blue-700 transition">
+              Education
+            </Link>
+
+            <Link href="#projects" className="hover:text-blue-700 transition">
+              Projects
+            </Link>
+
+            <Link href="#certificates" className="hover:text-blue-700 transition">
+              Certificates
+            </Link>
+
+            <Link href="#contact" className="hover:text-blue-700 transition">
+              Contact
+            </Link>
+          </div>
+
+          <MediaLinks />
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden border-t bg-white">
+          <nav className="flex flex-col px-6 py-4 space-y-4 text-gray-700">
+
+            <Link href="/" onClick={() => setIsOpen(false)}>
+              Home
+            </Link>
+
+            <Link href="#education" onClick={() => setIsOpen(false)}>
+              Education
+            </Link>
+
+            <Link href="#projects" onClick={() => setIsOpen(false)}>
+              Projects
+            </Link>
+
+            <Link href="#certificates" onClick={() => setIsOpen(false)}>
+              Certificates
+            </Link>
+
+            <Link href="#contact" onClick={() => setIsOpen(false)}>
+              Contact
+            </Link>
+
+            <div className="pt-3 border-t">
+              <MediaLinks />
             </div>
-
-            {/* Mobile Navigation Menu */}
-            {isOpen && (
-                <div className="md:hidden px-6 pb-4">
-                    <nav className="flex flex-col space-y-3 text-gray-700 text-base font-medium">
-                        <Link href="#about" className="hover:text-blue-800" onClick={toggleMenu}>About</Link>
-                        <Link href="#education" className="hover:text-blue-800 transition">Education</Link>
-                        <Link href="#skills" className="hover:text-blue-800" onClick={toggleMenu}>Skills</Link>
-                        <Link href="#projects" className="hover:text-blue-800" onClick={toggleMenu}>Projects</Link>
-                        <Link href="#contact" className="hover:text-blue-800" onClick={toggleMenu}>Contact</Link>
-                        <MediaLinks />
-                    </nav>
-                </div>
-            )}
-        </header>
-    );
+          </nav>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default TopNavbar;

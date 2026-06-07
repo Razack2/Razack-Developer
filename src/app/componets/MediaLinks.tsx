@@ -1,17 +1,26 @@
-import React from 'react';
-import Link from 'next/link';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import Link from "next/link";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const MediaLinks = () => {
-    return (
-        <div className="flex space-x-4 mx-15 px-4 place-items-end text-lg">
-            <Link href="https://www.github.com/razack2" className="text-gray-400 hover:text-white">
-                <FaGithub className="inline ml-1" />
-            </Link>
-            <Link href="https://www.linkedin.com/in/razack-chimwala-04648a297" className="text-gray-400 hover:text-white">
-                <FaLinkedin className="inline ml-1" />
-            </Link>
-        </div>
-    );
+  return (
+    <div className="flex space-x-6 px-4">
+      <Link
+        href="https://github.com/razack2"
+        target="_blank"
+        className="hover:scale-110 transition-all duration-300"
+      >
+        <FaGithub className="text-5xl text-black" />
+      </Link>
+
+      <Link
+        href="https://linkedin.com/in/razack-chimwala-04648a297"
+        target="_blank"
+        className="hover:scale-110 transition-all duration-300"
+      >
+        <FaLinkedin className="text-5xl text-[#0A66C2]" />
+      </Link>
+    </div>
+  );
 };
-export default MediaLinks;  
+
+export default MediaLinks;

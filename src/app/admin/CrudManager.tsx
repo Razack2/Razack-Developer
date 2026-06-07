@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 type Field = {
   name: string;
@@ -8,23 +9,25 @@ type Field = {
   type?: "text" | "date" | "textarea" | "file";
 };
 
+type FormData = Record<string, string>;
+
 type Props<T> = {
   title: string;
   fields: Field[];
   data: T[];
   loading: boolean;
 
-  onInsert: (payload: any) => void | Promise<void>;
-  onUpdate: (id: string, payload: any) => void | Promise<void>;
+  onInsert: (payload: FormData) => void | Promise<void>;
+  onUpdate: (id: string, payload: FormData) => void | Promise<void>;
   onDelete: (id: string) => void | Promise<void>;
 
   getId: (item: T) => string;
-  mapToForm: (item: T) => any;
+  mapToForm: (item: T) => FormData;
 
   onFileUpload?: (
     file: File,
-    form: any,
-    setForm: React.Dispatch<React.SetStateAction<any>>
+    form: FormData,
+    setForm: React.Dispatch<React.SetStateAction<FormData>>
   ) => void | Promise<void>;
 };
 
@@ -41,7 +44,7 @@ export default function CrudManager<T>({
   onFileUpload,
 }: Props<T>) {
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<any>({});
+  const [form, setForm] = useState<FormData>({});
 
   const startEdit = (item: T) => {
     setEditingId(getId(item));
@@ -53,11 +56,11 @@ export default function CrudManager<T>({
     setForm({});
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editingId) {
-      onUpdate(editingId, form);
+      await onUpdate(editingId, form);
     } else {
-      onInsert(form);
+      await onInsert(form);
     }
 
     reset();
@@ -111,9 +114,11 @@ export default function CrudManager<T>({
                 />
 
                 {form[f.name] && (
-                  <img
+                  <Image
                     src={form[f.name]}
                     alt="Preview"
+                    width={160}
+                    height={160}
                     className="w-40 h-40 object-cover border rounded"
                   />
                 )}
@@ -159,7 +164,7 @@ export default function CrudManager<T>({
       {loading && <p>Loading...</p>}
 
       <div className="space-y-3">
-        {data.map((item: any) => (
+        {data.map((item) => (
           <div
             key={getId(item)}
             className="border p-4 rounded flex justify-between"
@@ -170,7 +175,9 @@ export default function CrudManager<T>({
                   <span className="font-semibold">
                     {f.label}:
                   </span>{" "}
-                  {item[f.name]}
+                  {String(
+                    (item as Record<string, unknown>)[f.name] ?? ""
+                  )}
                 </p>
               ))}
             </div>

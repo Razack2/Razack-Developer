@@ -10,6 +10,7 @@ export default function HomePage() {
   const [skills, setSkills] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [certificates, setCertificates] = useState<any[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -17,7 +18,7 @@ export default function HomePage() {
       const edu = await supabase.from("education").select("*");
       setEducation(edu.data || []);
 
-      const skillsRes = await supabase.from("technical_expertise").select("*");
+      const skillsRes = await supabase.from("skills").select("*");
       setSkills(skillsRes.data || []);
 
       const proj = await supabase.from("projects").select("*");
@@ -211,8 +212,22 @@ export default function HomePage() {
                 <img
                   src={cert.image_url}
                   alt={cert.title}
-                  className="w-full h-56 object-cover"
+                  className="w-full h-56 object-cover cursor-pointer"
+                  onClick={() => setSelectedImage(cert.image_url)}
                 />
+
+                {selectedImage && (
+                  <div
+                    className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+                    onClick={() => setSelectedImage(null)}
+                  >
+                    <img
+                      src={selectedImage}
+                      className="max-w-[90%] max-h-[90%] rounded shadow-lg"
+                      alt="Selected certificate"
+                    />
+                  </div>
+                )}
 
                 <div className="p-4">
                   <h3 className="font-semibold text-lg">

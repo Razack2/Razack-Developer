@@ -38,12 +38,12 @@ export default function CertificatesSection() {
       getId={(i: Certificate) => String(i.id)}
       mapToForm={(i: Certificate) => i}
       fields={[
-        { name: "title", label: "Title" },
-        { name: "issuer", label: "Issuer" },
-        { name: "date", label: "Date", type: "date" },
-        { name: "link", label: "Link" },
-        { name: "image_url", label: "Certificate Image", type: "file" },
-      ]}
+  { name: "title", label: "Title" },
+  { name: "issuer", label: "Issuer" },
+  { name: "issue_date", label: "Issue Date", type: "date" },
+  { name: "certificate_url", label: "Certificate URL" },
+  { name: "image_url", label: "Image", type: "file" },
+]}
       onFileUpload={async (file:any, form:any, setForm:any) => {
         const url = await uploadCertificateImage(file);
 

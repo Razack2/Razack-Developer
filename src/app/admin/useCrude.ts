@@ -23,18 +23,41 @@ export function useCrud<T extends { id: string }>(table: string, orderBy?: strin
     setLoading(false);
   };
 
-  const insert = async (payload: Partial<T>) => {
-    await supabase.from(table).insert(payload as any);
-    fetchItems();
-  };
+  const insert = async (payload: any) => {
+  console.log("TABLE:", table);
+  console.log("PAYLOAD:", payload);
 
-  const update = async (id: string, payload: Partial<T>) => {
-    await supabase.from(table).update(payload as any).eq("id", id);
-    fetchItems();
-  };
+  const { data, error } = await supabase
+    .from(table)
+    .insert(payload)
+    .select();
 
-  const remove = async (id: string) => {
-    await supabase.from(table).delete().eq("id", id);
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
+
+  if (error) {
+    console.error("Insert error:", error);
+  }
+
+  fetchItems();
+};
+
+const update = async (id: string, payload: any) => {
+  const { error } = await supabase
+    .from(table)
+    .update(payload)
+    .eq("id", id);
+
+  if (error) console.error(error.message);
+
+  fetchItems();
+};
+
+  const remove = async (id: string, payload:any) => {
+    await supabase
+    .from(table)
+    .delete()
+    .eq("id", id);
     fetchItems();
   };
 

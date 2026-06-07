@@ -5,7 +5,7 @@ import { useState } from "react";
 type Field = {
   name: string;
   label: string;
-  type?: "text" | "date" | "textarea";
+  type?: "text" | "date" | "textarea" | "file";
 };
 
 type Props<T> = {
@@ -14,12 +14,18 @@ type Props<T> = {
   data: T[];
   loading: boolean;
 
-  onInsert: (payload: any) => void;
-  onUpdate: (id: string, payload: any) => void;
-  onDelete: (id: string) => void;
+  onInsert: (payload: any) => void | Promise<void>;
+  onUpdate: (id: string, payload: any) => void | Promise<void>;
+  onDelete: (id: string) => void | Promise<void>;
 
   getId: (item: T) => string;
   mapToForm: (item: T) => any;
+
+  onFileUpload?: (
+    file: File,
+    form: any,
+    setForm: React.Dispatch<React.SetStateAction<any>>
+  ) => void | Promise<void>;
 };
 
 export default function CrudManager<T>({
@@ -32,6 +38,7 @@ export default function CrudManager<T>({
   onDelete,
   getId,
   mapToForm,
+  onFileUpload,
 }: Props<T>) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<any>({});
@@ -52,6 +59,7 @@ export default function CrudManager<T>({
     } else {
       onInsert(form);
     }
+
     reset();
   };
 
@@ -61,18 +69,59 @@ export default function CrudManager<T>({
 
       {/* FORM */}
       <div className="grid md:grid-cols-2 gap-3 mb-4">
-        {fields.map((f) =>
-          f.type === "textarea" ? (
-            <textarea
-              key={f.name}
-              placeholder={f.label}
-              className="border p-3 rounded"
-              value={form[f.name] || ""}
-              onChange={(e) =>
-                setForm({ ...form, [f.name]: e.target.value })
-              }
-            />
-          ) : (
+        {fields.map((f) => {
+          if (f.type === "textarea") {
+            return (
+              <textarea
+                key={f.name}
+                placeholder={f.label}
+                className="border p-3 rounded"
+                value={form[f.name] || ""}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    [f.name]: e.target.value,
+                  })
+                }
+              />
+            );
+          }
+
+          if (f.type === "file") {
+            return (
+              <div key={f.name} className="flex flex-col gap-2">
+                <label className="text-sm font-medium">
+                  {f.label}
+                </label>
+
+                <input
+                  type="file"
+                  className="border p-3 rounded"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+
+                    if (!file || !onFileUpload) return;
+
+                    await onFileUpload(
+                      file,
+                      form,
+                      setForm
+                    );
+                  }}
+                />
+
+                {form[f.name] && (
+                  <img
+                    src={form[f.name]}
+                    alt="Preview"
+                    className="w-40 h-40 object-cover border rounded"
+                  />
+                )}
+              </div>
+            );
+          }
+
+          return (
             <input
               key={f.name}
               type={f.type || "text"}
@@ -80,11 +129,14 @@ export default function CrudManager<T>({
               className="border p-3 rounded"
               value={form[f.name] || ""}
               onChange={(e) =>
-                setForm({ ...form, [f.name]: e.target.value })
+                setForm({
+                  ...form,
+                  [f.name]: e.target.value,
+                })
               }
             />
-          )
-        )}
+          );
+        })}
       </div>
 
       <div className="flex gap-3 mb-6">
@@ -115,7 +167,9 @@ export default function CrudManager<T>({
             <div>
               {fields.map((f) => (
                 <p key={f.name} className="text-sm">
-                  <span className="font-semibold">{f.label}: </span>
+                  <span className="font-semibold">
+                    {f.label}:
+                  </span>{" "}
                   {item[f.name]}
                 </p>
               ))}

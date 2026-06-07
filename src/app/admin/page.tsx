@@ -50,10 +50,11 @@ export default function AdminPage() {
             onDelete={skills.remove}
             getId={(i) => i.id}
             mapToForm={(i) => i}
-            fields={[
-              { name: "name", label: "Skill" },
-              { name: "level", label: "Level" },
-            ]}
+              fields={[
+  { name: "skill_name", label: "Skill Name" },
+  { name: "category", label: "Category" },
+  { name: "proficiency", label: "Proficiency (0-100)" },
+]}
           />
 
           <CrudManager
@@ -66,10 +67,13 @@ export default function AdminPage() {
             getId={(i) => i.id}
             mapToForm={(i) => i}
             fields={[
-              { name: "title", label: "Title" },
-              { name: "description", label: "Description", type: "textarea" },
-              { name: "link", label: "Link" },
-            ]}
+  { name: "title", label: "Title" },
+  { name: "description", label: "Description", type: "textarea" },
+  { name: "technologies", label: "Technologies (comma separated)" },
+  { name: "github_url", label: "GitHub URL" },
+  { name: "live_url", label: "Live URL" },
+  { name: "image_url", label: "Image URL" },
+]}
           />
 
           <CertificatesManager />

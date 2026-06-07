@@ -29,7 +29,7 @@ export default function AdminPage() {
             loading={education.loading}
             onInsert={education.insert}
             onUpdate={education.update}
-            onDelete={education.remove}
+            onDelete={(id) => education.remove(id, undefined)}
             getId={(i) => i.id}
             mapToForm={(i) => i}
             fields={[
@@ -47,7 +47,7 @@ export default function AdminPage() {
             loading={skills.loading}
             onInsert={skills.insert}
             onUpdate={skills.update}
-            onDelete={skills.remove}
+            onDelete={(id) => skills.remove(id, undefined)}
             getId={(i) => i.id}
             mapToForm={(i) => i}
               fields={[
@@ -63,7 +63,7 @@ export default function AdminPage() {
             loading={projects.loading}
             onInsert={projects.insert}
             onUpdate={projects.update}
-            onDelete={projects.remove}
+            onDelete={(id) => projects.remove(id, undefined)}
             getId={(i) => i.id}
             mapToForm={(i) => i}
             fields={[
